@@ -5,10 +5,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -32,8 +29,10 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
+        //new arrayList called values
         ArrayList<String> values = new ArrayList<>();
 
+        //for each row in AllJobs
         for (HashMap<String, String> row : allJobs) {
             String aValue = row.get(field);
 
@@ -72,14 +71,12 @@ public class JobData {
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
         for (HashMap<String, String> row : allJobs) {
-
-            String aValue = row.get(column);
-
-            if (aValue.contains(value)) {
+            HashMap<String, String> lowerCasedRow = makeRowLowerCase(row);
+            String aValue = lowerCasedRow.get(column);
+            if (aValue.contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
-
         return jobs;
     }
 
@@ -94,9 +91,21 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
-        // TODO - implement this method
-        return null;
+        value = value.toLowerCase();
+
+        ArrayList<HashMap<String, String>> foundJobs = new ArrayList<>();
+        for (HashMap<String, String> row : allJobs) {
+            for (String columnValue : row.values()) {
+                if (columnValue.toLowerCase().contains(value)) {
+                    foundJobs.add(row);
+                    break; // We break here because once a match is found in a row, we don't need to check the other fields of the same row
+                }
+            }
+        }
+
+        return foundJobs;
     }
+
 
     /**
      * Read in data from a CSV file and store it in a list
@@ -137,6 +146,15 @@ public class JobData {
             System.out.println("Failed to load job data");
             e.printStackTrace();
         }
+    }
+
+    public static HashMap<String, String> makeRowLowerCase (HashMap<String,String> row) {
+        HashMap<String, String> lowerCasedRow = new HashMap<>();
+        for (Map.Entry<String, String> entry : row.entrySet()) {
+            String value = entry.getValue().toLowerCase();
+            lowerCasedRow.put(entry.getKey(), value);
+        }
+        return lowerCasedRow;
     }
 
 }
