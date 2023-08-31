@@ -89,8 +89,6 @@ public class TechJobs {
 
         do {
 
-            //THIS IS COMMENTED OUT BC THE EXAMPLE DOESN'T HAVE THE SAME SPACING AS WAS GIVEN BELOW
-//            System.out.println("\n" + menuHeader);
               System.out.println(menuHeader); //<-- my change
 
             // Print available choices
@@ -143,8 +141,4 @@ public class TechJobs {
     }
 }
 
-
-//printJobs is a public method
-//it takes an Arraylist of HashMaps as an argument.
-//internally this ArrayList is called someJobs
 
